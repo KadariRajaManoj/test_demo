@@ -1,0 +1,232 @@
+HAshmap 3
+Temp 
+
+Q16:
+   Consider the condition where  x and y are equal
+     x+y=target;
+ 5+5 = 10
+Then answer would be freq(5)/2.
+
+
+TImestamps: 38:00 -> why O(N^3) is best soln in that case.
+ And at 37:00 why[ i=0 and j=0] why not [i=0 and j=i] does starting both at 0 doesnt give Duplication(even though it doesnt chage answer) why extra work? 
+  Dry run it.
+
+Q.17:
+   Look at the bruteforce to generate all  the sub arrays. How simple it is.
+   (find the bruteforce sol for all the qns first and get comfortable in answering them in no time with code)
+ My intuition for optimal sol was correct but instead i was thinking to look for the value ‘x’ present before the current value(x) and find the subset sum b/w them using the normal prefix sum method.
+But to find the x that was present before the current idx i was thinking of looping it again. But instead we can store (HAshmap<sum,<freq,val_at_that_idx>>
+Here it was quite straight forward we have to look for a element and hashmap is the best way to do it. I  mean that is the purpose of hashmaps.
+
+Check the soln in java using Tree map
+
+Dry run for conditions where either 0 or -ve value is present in array.
+
+
+
+Q18: prefix array (in 2d) very interesting question
+          Start from the bruteforce and explain how and why  are we using that optimized approach 
+          It is really an interesting question.
+
+Q19: Simple question but you have to make a note of that imp trick.
+        Instead of doing/cal what they are asking to do in the question directly we can use that trick        to get our answer. Rest is simple hashmap 
+      
+Q20:  Same Question (Q16) just repeated.
+ Level1: Leetcode qn. Find the max equal/same pairs whose sum is equal to k
+ Note:- When it comes to pairs order doesnot matter only frequency matters.
+     Ex:-   if there are 5-> (9+1) pairs  ,  2 ->(8+2)  and 3->(7+3) for k=10
+            Then the maximum equal/same pairs are 5
+         Level 2: - Google OA               
+   Here we are finding the max count of pairs whose sum is same
+Ex:-   1 1 1 9 9 9 9 2 2 3 3 
+Sume 10 -> 3 times (1+9)
+Sum 3 ->  2 times(1+2)
+Sum 4 -> 2 times (1+3)
+Sum 11 -> 2 times ( 2+9)
+Sum 12 -> 2 times (9+3)
+Sum 5 -> 2 times (2+3)
+
+So the max pairs(1,9) whose sum is equal (10) is 3(times/pairs)
+
+Bruteforce:-
+Here k is not mentioned so we may find it for all k values i.e k=1 ……k = Max_sum using above approach.
+
+Optimised:- 
+K can only be the possible pairs of array, so find it only for the possible pairs of array.
+
+
+
+Q21:  (*************very interesting prob**************)
+
+              ->Q 32 -> is same as this qn ans has very simple explanation for this.
+   Pre req:- It’s all about modulo operations.(make notes of it)**
+   Amazon OA:- 
+
+     FInd all the pairs (i,j) which are divisible by K.  (SImple question but with slight variation)
+ Which means we need to find all the pairs(i,j) such that   [ (i+j)%k == 0 ]
+
+
+BF:- Find all the pairs using 2 loops and check for condition. → O(n^2)
+                                                                                                → sc: O(1) Ask interviewer if we have to consider the space of the original array and if he says no then SC is O(N) else O(1)
+Always ask before answering don't assume and say answers directly.
+
+
+
+
+    
+Generally we need to find the pair such that x+y =k, in our prev prob.
+  Y is generally our current idx value and k is the target then we need 
+To find x where x=k-y. So while itr through arr we store all val in hashmap and when we want to find if x exists and its fre we can do it very easily.
+
+But here we need to find(x+y)%k ==0
+Here also y is curr idx value and k is target( or say divisilty) value. But the value of x can be multiple
+Ex:- say k =3
+   Our current idx (y) is 9 sox can be 0,3, and 6.
+   So first we need to reduce it into a constant value.
+
+[5,6,7,8,13]
+
+Say our y is 13 and k is 3
+We want (b[i] + b[j]) %k == 0
+I.e  (b[i]%k + b[j] %k ) %k == 0
+ 
+
+(B[i] %k + 1 ) % k ==0
+Then b[i] value should be 2.
+
+So find all the values whose b[i] %k == 2.
+So at each idx instead we need to store b[idx]%k in hashmap.
+
+https://docs.google.com/document/d/1TknQWcx0v6YXy2HPpJT6nKRO_7f5_Cy9LXMA7Q4S3c0/edit
+
+Q:22 
+
+  Find the max sum subarray which starts and ends with smae number
+   Simple qn:
+   I thought of maintaining the prefix sum array separately and storing all the idx at while the ele appeared in a hashmap . which is good
+But a slight better option is to store the min prefix sum for an element in HM
+And store in prefix sum so far in a var,
+Subtract prefix sum so far in a var, with min prefix sum for an element in HM
+ If its greater than Max sum subarray then update then ,ax sum subarray
+
+If no elements are re[peating the max sum subarray is the max ele in an array becaz single ele is aslo considered as an  subarray
+
+
+Q: 23
+
+ Find all the unique pais such that  a-b=k
+
+
+Here unique pairs absolutely means that even if there is a possibility of forming multiple such pairs we need to form inly one pair
+Ex 1 1 2 2 
+And k=1
+ We have (1,2) and (1,2) but we need to include only one pair.
+
+Here we are taking hashmap to store the freq for constant lookup time as usual but one more imp thing is we are asked for unique pairs and the keys of map are unique
+
+Here in this question if(x+k=y)
+For all the keys (x) in the HM  we check if there exist x+k ele in the mashmap, where x is the current key in HM.
+Does that automatically eliminate dupilacy i.e if k=1 and curr ele (x =1) they we look for X+K i.e 2
+And for x=2 (we look for x+k i.e 2 +1 =3) in hashmap instead of looking for 1.
+In the problem find all pairs such that x+y =k we look for rev val also.
+ I.e if k=3
+At 1 we look for if 2 is present in HM and at 2 we look if 1 is present in Hm and we take the Min of(freq(1), freq(2)) if duplicates pairs are allowed.
+
+
+And in our question for K= 0 
+If we are at x =4 we look for (x+k) ie again 4 so do we need to handle it separately?
+
+
+Q24:
+Same as Q22 but the diff /e start and end ele of sub array should be equal to K
+Look for this condition explained at: 54:00
+  If k=0
+And element is 5 we need to check for -5 nd 0 
+
+Q25:
+  Find the count of subarrays which have K number of odd elements in it.
+   ***   (The trick we use in this qn is simple and it is used in different qns)
+
+Q 26: 
+      Watch it later when you are absolutely free ( Leetcode)
+
+Q 27: 
+    It is a very basic question.
+    Look how simply sir coded it also also how he used str.find(‘ ‘) method in it.
+Q 28: 
+
+   Straight forward implementation
+
+
+Q 29:
+         2d hashing somewhat simple
+   Need some more clarity on how and why it is hashed in that way need to find the intuition.
+
+Q30:
+    2d prefix sum but watch it after clear understanding of Q31, then this qn would be simple implementation of such approach.
+
+Q31:
+  Interesting Probblem on 2d prefix sum ( watch it again and get very clear understanding also code it by ur self)
+
+Q32:
+
+   Q1:
+  Find if there exist a sub array whose sum is divisible by K .
+ We have done similar qn earlier. (Q 21)
+The way he explained here was very decent.
+Watch 1st 20 min to get detailed understanding of that proof. It is way better than the expn of similar problem solved earlier.
+Pr -> prefix sum
+p(l-1) -> prefix sum till l-1
+s(l,r) -> sum of sub array l to r.
+
+This also works for count the no. of sub arr which are div by k just by making slight variation.
+This works only for +ve values
+
+Q2: 
+   Direct implementation problem but this is a different category of problem. Make a detailed note and analysis of this problem and the way he writes the code in this video is really good. I have to write the code in that way.
+
+
+
+
+Q33:
+  Find the count of min length sub arrays whose sum is k
+  SImple problem we solved it multiple times,
+
+In This question do we need to use sliding window at last for sure? 
+Cant we just update the count on the go?
+
+
+Q 34: 
+
+   Find the count of maxlength sub arrays whose sum is k
+ Same as above but here also they used SLiding window to get the count
+
+Q35:
+Packet dropping in a Network problem 
+
+Q36: 
+   Simple school level problem:
+Learn HOw to take separate words from a sentence separated by words. 
+    str.spllir(‘ ‘) or manual looping or sc.next()
+
+Q37:
+
+Just a basic thing i want to know:-   For a given array find how to get the no of sub arrays and and what are they
+
+Find the Total no of sub arrays which has 1 included —> (x+1)*(y+1)
+→ see how he derives formula for it*
+
+
+Q38:
+ Understood on superficial level
+ Know how to code it
+how and why it works
+Q39:
+  Anyone solves this problem their concept of hashing will be so clear and they can clear google,microsoft, or any other OA when it comes to hashing  for sure
+   
+
+I got my own approach which might work for this 
+But sir has taught slightly diff approach using a formula
+
+*******(Watch that video again form the point where sir teaches the effective approach)
